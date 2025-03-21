@@ -1,4 +1,6 @@
-/* Reset + Garamond */
+/* ======================== */
+/* RESET + STYLE GLOBAL */
+/* ======================== */
 body {
     margin: 0;
     padding: 0;
@@ -10,42 +12,51 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .container {
+}
+
+/* ======================== */
+/* CONTAINER PRINCIPAL */
+/* ======================== */
+.container {
     text-align: center;
     padding: 40px;
     background: rgba(0, 0, 0, 0.6);
     border-radius: 20px;
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
     animation: fadeIn 1.2s ease;
-  }
-  
-  /* Titre effet tribunal */
-  h1 {
+    max-width: 90%;
+}
+
+/* ======================== */
+/* TITRE AVEC EFFET */
+/* ======================== */
+h1 {
     font-size: 5rem;
     margin-bottom: 50px;
     color: #fff;
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.5);
     animation: glow 2s infinite alternate;
-  }
-  
-  @keyframes glow {
+}
+
+@keyframes glow {
     from {
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.5);
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.5);
     }
     to {
-      text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 30px rgba(255, 215, 0, 0.8);
+        text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 30px rgba(255, 215, 0, 0.8);
     }
-  }
-  
-  .buttons {
+}
+
+/* ======================== */
+/* BOUTONS */
+/* ======================== */
+.buttons {
     display: flex;
     gap: 20px;
     justify-content: center;
-  }
-  
-  .btn {
+}
+
+.btn {
     padding: 20px 40px;
     border-radius: 10px;
     border: 2px solid #fff;
@@ -53,68 +64,86 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: bold;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  }
-  
-  .guilty {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.guilty {
     background-color: #b71c1c;
     color: #fff;
-  }
-  
-  .not-guilty {
+}
+
+.not-guilty {
     background-color: #2e7d32;
     color: #fff;
-  }
-  
-  .btn:hover {
+}
+
+.btn:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-  }
-  
-  .btn.guilty:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.btn.guilty:hover {
     background-color: #ff1744;
-  }
-  
-  .btn.not-guilty:hover {
+}
+
+.btn.not-guilty:hover {
     background-color: #00e676;
-  }
-  
-  .message {
+}
+
+/* ======================== */
+/* MESSAGE APRÈS VOTE */
+/* ======================== */
+.message {
     margin-top: 40px;
     font-size: 1.2rem;
     color: #ffd54f;
     animation: fadeIn 1s ease;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  /* Media Queries pour mobiles (responsive) */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ======================== */
+/* 🌟 RESPONSIVE MOBILE */
+/* ======================== */
 @media (max-width: 768px) {
-    
-    /* Le conteneur principal */
+    body {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
     .container {
         padding: 20px;
+        max-width: 95%;
     }
 
-    /* Le titre principal */
     h1 {
-        font-size: 2rem;
-        margin-bottom: 20px;
+        font-size: 3.5rem;
+        margin-bottom: 30px;
     }
 
-    /* Les boutons */
-    .button {
-        width: 90%;
-        padding: 15px 20px;
-        font-size: 1.2rem;
-        margin: 15px 0;
+    .buttons {
+        flex-direction: column;
+        gap: 15px;
     }
 
-    /* Le message qui s'affiche après le vote */
-    #message {
+    .btn {
+        width: 100%;
+        font-size: 1.4rem;
+        padding: 15px 25px;
+    }
+
+    .message {
         font-size: 1rem;
-        margin-top: 20px;
+        margin-top: 25px;
     }
 }
