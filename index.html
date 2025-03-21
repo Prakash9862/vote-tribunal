@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vote Tribunal</title>
+  <title>Verdict</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>Rendez votre verdict</h1>
-    <button id="guilty">Coupable</button>
-    <button id="notGuilty">Non Coupable</button>
-    <p id="message"></p>
+    <h1>Verdict</h1>
+    <div class="buttons">
+      <button id="guilty" class="btn guilty">Coupable</button>
+      <button id="notGuilty" class="btn not-guilty">Non Coupable</button>
+    </div>
+    <p id="message" class="message"></p>
   </div>
-
-  <!-- SCRIPTS FIREBASE -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
