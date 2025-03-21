@@ -1,0 +1,45 @@
+body {
+    background-color: #111;
+    color: #eee;
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+  }
+  
+  .container {
+    text-align: center;
+  }
+  
+  button {
+    width: 200px;
+    margin: 20px;
+    padding: 20px;
+    font-size: 1.5em;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  #guilty {
+    background-color: #a30000;
+    color: white;
+  }
+  
+  #notGuilty {
+    background-color: #007a00;
+    color: white;
+  }
+  
+  button:hover {
+    transform: scale(1.05);
+  }
+  
+  #message {
+    margin-top: 20px;
+    font-size: 1.2em;
+  }
+  
