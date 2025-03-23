@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Vote Tribunal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>ADMIN - Résultats des votes</h1>
+
+    <div class="vote-results">
+      <p>Coupable : <span id="countGuilty">0</span></p>
+      <p>Non Coupable : <span id="countNotGuilty">0</span></p>
+    </div>
+
+    <div class="buttons">
+      <button id="verdictGuilty" class="btn guilty">Déclencher Coupable</button>
+      <button id="verdictNotGuilty" class="btn not-guilty">Déclencher Non Coupable</button>
+    </div>
+  </div>
+
+  <!-- Firebase + Script Admin -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBpTQPQBg1KVW8M_MfTMz7Vanjj01tegGc",
+      authDomain: "jugement-56ec0.firebaseapp.com",
+      databaseURL: "https://jugement-56ec0-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "jugement-56ec0",
+      storageBucket: "jugement-56ec0.appspot.com",
+      messagingSenderId: "569033773523",
+      appId: "1:569033773523:web:d8ea5d31aa044d5a6206ac"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const guiltyCount = document.getElementById('countGuilty');
+    const notGuiltyCount = document.getElementById('countNotGuilty');
+
+    // Met à jour les scores en temps réel
+    db.ref('votes').on('value', (snapshot) => {
+      const votes = snapshot.val();
+      let countG = 0, countNG = 0;
+
+      for (let key in votes) {
+        if (votes[key].verdict === 'coupable') countG++;
+        else if (votes[key].verdict === 'nonCoupable') countNG++;
+      }
+
+      guiltyCount.textContent = countG;
+      notGuiltyCount.textContent = countNG;
+    });
+
+    // Déclenche le verdict final
+    document.getElementById('verdictGuilty').addEventListener('click', () => {
+      window.location.href = 'verdict.html?result=coupable';
+    });
+
+    document.getElementById('verdictNotGuilty').addEventListener('click', () => {
+      window.location.href = 'verdict.html?result=nonCoupable';
+    });
+  </script>
+
+</body>
+</html>

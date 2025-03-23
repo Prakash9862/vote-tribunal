@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Verdict Final</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="nonCoupable"> <!-- ou "coupable" en fonction du verdict -->
+
+  <div class="curtain left open"></div>
+  <div class="curtain right open"></div>
+
+  <div class="container">
+    <h1 id="verdictText">NON COUPABLE</h1> <!-- ou "COUPABLE" -->
+  </div>
+
+  <script>
+    // Ici, tu peux choisir le verdict : "coupable" ou "nonCoupable"
+    const verdict = 'nonCoupable'; // ou 'coupable'
+
+    document.body.className = verdict;
+
+    const verdictText = document.getElementById('verdictText');
+    verdictText.textContent = verdict === 'coupable' ? 'COUPABLE' : 'NON COUPABLE';
+
+    // Ouvre les rideaux après une courte attente
+    setTimeout(() => {
+      document.querySelector('.curtain.left').classList.add('open');
+      document.querySelector('.curtain.right').classList.add('open');
+    }, 100);
+  </script>
+
+</body>
+</html>
