@@ -43,16 +43,13 @@ h1 {
 }
 
 /* ======================== */
-/* MESSAGE */
+/* MESSAGE ET VOTES */
 /* ======================== */
 p {
     font-size: 2rem;
     margin-top: 20px;
 }
 
-/* ======================== */
-/* VOTE RESULTS */
-/* ======================== */
 .vote-results {
     margin-top: 40px;
     font-size: 1.8rem;
@@ -61,6 +58,54 @@ p {
 
 .vote-results p {
     margin: 10px 0;
+}
+
+/* ======================== */
+/* BOUTONS */
+/* ======================== */
+.buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 20px 40px;
+    border-radius: 10px;
+    border: 2px solid #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.guilty {
+    background-color: #b71c1c;
+    color: #fff;
+}
+
+.not-guilty {
+    background-color: #2e7d32;
+    color: #fff;
+}
+
+.btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.btn.guilty:hover {
+    background-color: #ff1744;
+}
+
+.btn.not-guilty:hover {
+    background-color: #00e676;
+}
+
+button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 /* ======================== */
@@ -181,16 +226,28 @@ body.nonCoupable .vote-results {
     .vote-results {
         font-size: 1.5rem;
     }
+
+    .btn {
+        width: 100%;
+        font-size: 1.4rem;
+        padding: 15px 25px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .message {
+        font-size: 1rem;
+        margin-top: 25px;
+    }
 }
 
 /* ======================== */
 /* ANIMATIONS */
 /* ======================== */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }

@@ -2,21 +2,77 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verdict</title>
+  <title>Vote Tribunal</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>Verdict</h1>
+    <h1>VERDICT</h1>
     <div class="buttons">
       <button id="guilty" class="btn guilty">Coupable</button>
       <button id="notGuilty" class="btn not-guilty">Non Coupable</button>
     </div>
-    <p id="message" class="message"></p>
+    <p class="message" id="message"></p>
   </div>
+
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-  <script src="script.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBpTQPQBg1KVW8M_MfTMz7Vanjj01tegGc",
+      authDomain: "jugement-56ec0.firebaseapp.com",
+      databaseURL: "https://jugement-56ec0-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "jugement-56ec0",
+      storageBucket: "jugement-56ec0.appspot.com",
+      messagingSenderId: "569033773523",
+      appId: "1:569033773523:web:d8ea5d31aa044d5a6206ac"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    const guiltyButton = document.getElementById('guilty');
+    const notGuiltyButton = document.getElementById('notGuilty');
+    const message = document.getElementById('message');
+
+    // Limite 1 vote par utilisateur (localStorage)
+    const hasVoted = localStorage.getItem('hasVoted');
+
+    if (hasVoted) {
+      disableVoting();
+      message.textContent = `Vous avez déjà voté : ${hasVoted === 'coupable' ? 'Coupable' : 'Non Coupable'}.`;
+    }
+
+    guiltyButton.addEventListener('click', () => sendVote('coupable'));
+    notGuiltyButton.addEventListener('click', () => sendVote('nonCoupable'));
+
+    function sendVote(verdict) {
+      if (localStorage.getItem('hasVoted')) {
+        alert("Vous avez déjà voté.");
+        return;
+      }
+
+      const voteRef = database.ref('votes').push();
+
+      voteRef.set({
+        verdict: verdict,
+        timestamp: Date.now()
+      }).then(() => {
+        message.textContent = `Vous avez voté : ${verdict === 'coupable' ? 'Coupable' : 'Non Coupable'}`;
+        localStorage.setItem('hasVoted', verdict);
+        disableVoting();
+      }).catch((error) => {
+        message.textContent = "Erreur lors de l'envoi du vote...";
+        console.error(error);
+      });
+    }
+
+    function disableVoting() {
+      guiltyButton.disabled = true;
+      notGuiltyButton.disabled = true;
+      guiltyButton.classList.add('disabled');
+      notGuiltyButton.classList.add('disabled');
+    }
+  </script>
 </body>
 </html>
