@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Admin Vote Tribunal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <body>
 
   <div class="container">
@@ -22,8 +23,10 @@
     </div>
   </div>
 
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBpTQPQBg1KVW8M_MfTMz7Vanjj01tegGc",
@@ -40,7 +43,9 @@
 
     const guiltyCount = document.getElementById('countGuilty');
     const notGuiltyCount = document.getElementById('countNotGuilty');
+    const verdictRef = db.ref('verdictFinal');
 
+    // Afficher les résultats des votes
     db.ref('votes').on('value', (snapshot) => {
       const votes = snapshot.val();
       let countG = 0, countNG = 0;
@@ -54,12 +59,24 @@
       notGuiltyCount.textContent = countNG;
     });
 
+    // Déclencher le verdict COUPABLE
     document.getElementById('verdictGuilty').addEventListener('click', () => {
-      window.location.href = 'verdict.html?result=coupable';
+      verdictRef.set({
+        verdict: 'coupable',
+        timestamp: Date.now()
+      }).then(() => {
+        window.location.href = 'verdict.html';
+      });
     });
 
+    // Déclencher le verdict NON COUPABLE
     document.getElementById('verdictNotGuilty').addEventListener('click', () => {
-      window.location.href = 'verdict.html?result=nonCoupable';
+      verdictRef.set({
+        verdict: 'nonCoupable',
+        timestamp: Date.now()
+      }).then(() => {
+        window.location.href = 'verdict.html';
+      });
     });
   </script>
 
