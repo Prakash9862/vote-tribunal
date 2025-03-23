@@ -21,7 +21,6 @@
     </div>
   </div>
 
-  <!-- Firebase + Script Admin -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <script>
@@ -41,7 +40,6 @@
     const guiltyCount = document.getElementById('countGuilty');
     const notGuiltyCount = document.getElementById('countNotGuilty');
 
-    // Met à jour les scores en temps réel
     db.ref('votes').on('value', (snapshot) => {
       const votes = snapshot.val();
       let countG = 0, countNG = 0;
@@ -55,7 +53,6 @@
       notGuiltyCount.textContent = countNG;
     });
 
-    // Déclenche le verdict final
     document.getElementById('verdictGuilty').addEventListener('click', () => {
       window.location.href = 'verdict.html?result=coupable';
     });

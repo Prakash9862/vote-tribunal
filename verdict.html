@@ -1,34 +1,152 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Verdict Final</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Verdict Final</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="nonCoupable"> <!-- ou "coupable" en fonction du verdict -->
+<body>
 
-  <div class="curtain left open"></div>
-  <div class="curtain right open"></div>
+    <!-- Rideaux théâtre -->
+    <div class="curtain left"></div>
+    <div class="curtain right"></div>
 
-  <div class="container">
-    <h1 id="verdictText">NON COUPABLE</h1> <!-- ou "COUPABLE" -->
-  </div>
+    <!-- Flash blanc -->
+    <div class="flash" id="flash"></div>
 
-  <script>
-    // Ici, tu peux choisir le verdict : "coupable" ou "nonCoupable"
-    const verdict = 'nonCoupable'; // ou 'coupable'
+    <!-- Overlay suspense + décompte -->
+    <div id="overlay" class="overlay">
+        <p id="wait-message">Le verdict sera révélé dans</p>
+        <p id="countdown" class="countdown">5</p>
+    </div>
 
-    document.body.className = verdict;
+    <!-- Contenu du verdict -->
+    <div class="container hidden" id="verdict-container">
+        <h1 id="verdict-title">En attente du verdict...</h1>
+        <p id="verdict-message">Le verdict sera bientôt révélé...</p>
 
-    const verdictText = document.getElementById('verdictText');
-    verdictText.textContent = verdict === 'coupable' ? 'COUPABLE' : 'NON COUPABLE';
+        <!-- Résultats des votes -->
+        <div class="vote-results">
+            <p>Coupable : <span id="coupable-count">0</span></p>
+            <p>Non Coupable : <span id="non-coupable-count">0</span></p>
+        </div>
+    </div>
 
-    // Ouvre les rideaux après une courte attente
-    setTimeout(() => {
-      document.querySelector('.curtain.left').classList.add('open');
-      document.querySelector('.curtain.right').classList.add('open');
-    }, 100);
-  </script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBpTQPQBg1KVW8M_MfTMz7Vanjj01tegGc",
+            authDomain: "jugement-56ec0.firebaseapp.com",
+            databaseURL: "https://jugement-56ec0-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "jugement-56ec0",
+            storageBucket: "jugement-56ec0.appspot.com",
+            messagingSenderId: "569033773523",
+            appId: "1:569033773523:web:d8ea5d31aa044d5a6206ac"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        const body = document.body;
+        const title = document.getElementById('verdict-title');
+        const message = document.getElementById('verdict-message');
+        const overlay = document.getElementById('overlay');
+        const countdown = document.getElementById('countdown');
+        const verdictContainer = document.getElementById('verdict-container');
+        const leftCurtain = document.querySelector('.curtain.left');
+        const rightCurtain = document.querySelector('.curtain.right');
+        const flash = document.getElementById('flash');
+
+        const coupableCountEl = document.getElementById('coupable-count');
+        const nonCoupableCountEl = document.getElementById('non-coupable-count');
+
+        database.ref('verdictFinal').on('value', (snapshot) => {
+            const data = snapshot.val();
+
+            if (data && data.verdict) {
+                lancerSuspense(() => {
+                    lancerFlash(() => {
+                        ouvrirRideau(() => {
+                            if (data.verdict === 'coupable') {
+                                afficherCoupable();
+                            } else if (data.verdict === 'nonCoupable') {
+                                afficherNonCoupable();
+                            }
+                            afficherVotes();
+                        });
+                    });
+                });
+            }
+        });
+
+        function lancerSuspense(callback) {
+            overlay.style.display = 'flex';
+            verdictContainer.classList.add('hidden');
+
+            let timeLeft = 5;
+            countdown.textContent = timeLeft;
+
+            const timer = setInterval(() => {
+                timeLeft--;
+                countdown.textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    overlay.style.display = 'none';
+                    callback();
+                }
+            }, 1000);
+        }
+
+        function lancerFlash(callback) {
+            flash.classList.add('active');
+            setTimeout(() => {
+                flash.classList.remove('active');
+                callback();
+            }, 300);
+        }
+
+        function ouvrirRideau(callback) {
+            leftCurtain.classList.add('open');
+            rightCurtain.classList.add('open');
+            setTimeout(callback, 2000);
+        }
+
+        function afficherCoupable() {
+            body.className = 'coupable';
+            verdictContainer.classList.remove('hidden');
+            title.textContent = 'Coupable';
+            message.textContent = 'Le tribunal populaire a rendu son jugement.';
+        }
+
+        function afficherNonCoupable() {
+            body.className = 'nonCoupable';
+            verdictContainer.classList.remove('hidden');
+            title.textContent = 'Non Coupable';
+            message.textContent = 'Acquittée par le tribunal populaire.';
+        }
+
+        function afficherVotes() {
+            database.ref('votes').once('value').then((snapshot) => {
+                let coupable = 0;
+                let nonCoupable = 0;
+
+                snapshot.forEach((child) => {
+                    const vote = child.val().verdict;
+                    if (vote === 'coupable' || vote === 'guilty') {
+                        coupable++;
+                    } else if (vote === 'nonCoupable' || vote === 'notGuilty') {
+                        nonCoupable++;
+                    }
+                });
+
+                coupableCountEl.textContent = coupable;
+                nonCoupableCountEl.textContent = nonCoupable;
+            });
+        }
+    </script>
 </body>
 </html>
