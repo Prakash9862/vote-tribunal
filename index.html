@@ -2,12 +2,13 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vote Tribunal</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>VERDICT</h1>
+    <h1 class="neon-title">VERDICT</h1>
     <div class="buttons">
       <button id="guilty" class="btn guilty">Coupable</button>
       <button id="notGuilty" class="btn not-guilty">Non Coupable</button>
@@ -35,7 +36,6 @@
     const notGuiltyButton = document.getElementById('notGuilty');
     const message = document.getElementById('message');
 
-    // Limite 1 vote par utilisateur (localStorage)
     const hasVoted = localStorage.getItem('hasVoted');
 
     if (hasVoted) {
